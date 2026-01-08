@@ -25,6 +25,10 @@
   border: 3px solid rgb(0, 0, 0);
   /* backdrop-filter: blur(6px); */
 }
+/* .sx-card:hover{
+  background: rgba(227, 224, 224, 0.72);
+  transition-timing-function: ease-in-out;
+} */
 
 /* -- Title styles -- */
 .sx-title,

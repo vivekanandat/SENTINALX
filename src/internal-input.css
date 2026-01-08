@@ -1,0 +1,62 @@
+/* === Scan Input Dropdown Panel === */
+
+.sx-input-panel {
+  width: 100%;
+  margin-top: 14px;
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.35);
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: slideDown 0.25s ease-out;
+}
+
+.hidden {
+  display: none;
+}
+
+.sx-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+.sx-input-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #9fcdbf;
+}
+
+.sx-input-group input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background: #111822;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.sx-input-group input::placeholder {
+  color: #7b8596;
+}
+
+.sx-btn-small {
+  padding: 12px;
+  font-size: 15px;
+  width: 100%;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
