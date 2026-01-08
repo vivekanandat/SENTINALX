@@ -1,77 +1,98 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SENTINALX — Internal</title>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SENTINALX — Internal</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
 
-    <!-- Link to the shared stylesheet -->
-    <link rel="stylesheet" href="/src/styles.css" />
+  <!-- Main Styles -->
+  <link rel="stylesheet" href="/src/styles.css" />
+  <!-- Input Panel Styles -->
+  <link rel="stylesheet" href="/src/internal-input.css" />
 
-    <!-- Local script -->
-    <script src="script.js" defer></script>
-  </head>
+  <script src="internal.js" defer></script>
+</head>
 
-  <body class="sx-body">
+<body class="sx-body">
 
-    <div class="sx-panel" role="region" aria-labelledby="sx-panel-title">
-      <header class="sx-panel-header">
-        <h1 id="sx-panel-title" class="sx-panel-title">SENTINALX</h1>
-        <p class="sx-panel-sub">NETWORK SECURITY SCANNER</p>
-      </header>
+  <div class="sx-panel">
 
-      <div class="sx-card sx-card-md">
-        <div class="sx-status">
-          <span class="sx-dot" aria-hidden="true"></span>
-          <span class="sx-status-text">System Ready</span>
-        </div>
+    <header class="sx-panel-header">
+      <h1 class="sx-panel-title">SENTINALX</h1>
+      <p class="sx-panel-sub">NETWORK SECURITY SCANNER</p>
+    </header>
 
-        <div class="sx-controls">
-          <button class="sx-btn sx-btn-muted" type="button" onclick="openLogs()">
-            Open Logs
-          </button>
+    <div class="sx-card sx-card-md">
 
-          <button class="sx-btn sx-btn-primary" type="button" onclick="deviceScan()">
-            Device Scan
-          </button>
-
-          <button class="sx-btn sx-btn-purple" type="button" onclick="portScan()">
-            Port Scan
-          </button>
-
-          <button class="sx-btn sx-btn-green" type="button" onclick="serviceVersionDetection()">
-            Service &amp; Version Detection
-          </button>
-
-          <div class="sx-divider" role="separator"></div>
-
-          <div class="sx-toggle-row">
-            <div class="sx-toggle-left">
-              <span class="sx-toggle-icon" aria-hidden="true">⛭</span>
-              <span class="sx-toggle-label">Background Logs</span>
-            </div>
-
-            <div class="sx-toggle-right">
-              <input id="sx-background-logs" class="sx-toggle-checkbox" type="checkbox" />
-              <label for="sx-background-logs" class="sx-toggle-switch" aria-hidden="true">
-                <span class="sx-toggle-knob"></span>
-              </label>
-            </div>
-          </div>
-        </div>
+      <div class="sx-status">
+        <span class="sx-dot"></span>
+        <span class="sx-status-text">System Ready</span>
       </div>
 
-      <footer class="sx-footer">
-        Version 1.0.0 • Built with Tauri
-      </footer>
+      <div class="sx-controls">
+
+        <button class="sx-btn sx-btn-muted" onclick="openLogs()">Open Logs</button>
+
+        <button class="sx-btn sx-btn-primary" onclick="deviceScan()">Device Scan</button>
+
+        <button class="sx-btn sx-btn-purple" onclick="togglePortScan()">
+          Port Scan
+        </button>
+
+        <button class="sx-btn sx-btn-green" onclick="toggleServiceScan()">
+          Service &amp; Version Detection
+        </button>
+
+        <!-- 🔽 Dynamic Input Panel -->
+        <div id="scan-input-panel" class="sx-input-panel hidden">
+
+          <div class="sx-input-group">
+            <label>Target IP Address</label>
+            <input id="target-ip" type="text" placeholder="e.g. 192.168.1.10" />
+          </div>
+
+          <div id="port-field" class="sx-input-group hidden">
+            <label>Port (optional)</label>
+            <input id="target-port" type="number" placeholder="e.g. 80" />
+          </div>
+
+          <button class="sx-btn sx-btn-primary sx-btn-small" onclick="runScan()">
+            Start Scan
+          </button>
+
+        </div>
+
+        <div class="sx-divider"></div>
+
+        <div class="sx-toggle-row">
+          <div class="sx-toggle-left">
+            <span class="sx-toggle-icon">⛭</span>
+            <span class="sx-toggle-label">Background Logs</span>
+          </div>
+
+          <div class="sx-toggle-right">
+            <input id="sx-background-logs" class="sx-toggle-checkbox" type="checkbox" />
+            <label for="sx-background-logs" class="sx-toggle-switch">
+              <span class="sx-toggle-knob"></span>
+            </label>
+          </div>
+        </div>
+
+      </div>
     </div>
 
-  </body>
+    <footer class="sx-footer">
+      Version 1.0.0 • Built with Tauri
+    </footer>
+
+  </div>
+
+</body>
 </html>
