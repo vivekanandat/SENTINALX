@@ -20,21 +20,12 @@
   </head>
 
   <body class="sx-body">
-
-    <div class="sx-card" role="main" aria-labelledby="sx-title">
-      <h1 id="sx-title" class="sx-title">SENTINALX</h1>
-
-      <main class="sx-button-group" role="navigation" aria-label="Main actions">
-        <!-- Keep onclick internal() for compatibility with existing JS -->
-        <button type="button" onclick="internal()" class="sx-btn sx-btn-internal">
-          <a href="internal.html" class="sx-link">Internal</a>
-        </button>
-
-        <button type="button" class="sx-btn sx-btn-external">
-          External
-        </button>
-      </main>
+  <div class="sx-index-container">
+    <h1 class="sx-title">SENTINALX</h1>
+    <div class="sx-button-group">
+      <button class="sx-btn sx-btn-internal" onclick="internal()">Internal</button>
+      <button class="sx-btn sx-btn-external">External</button>
     </div>
-
-  </body>
+  </div>
+</body>
 </html>

@@ -3,95 +3,170 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SENTINALX — Internal</title>
+  <title>SENTINALX — Dashboard</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Main Styles -->
   <link rel="stylesheet" href="/src/styles.css" />
-  <!-- Input Panel Styles -->
   <link rel="stylesheet" href="/src/internal-input.css" />
+
+  <!-- Optional: only include Chart.js when you're ready to show charts -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
 
   <script src="internal.js" defer></script>
 </head>
 
 <body class="sx-body">
 
-  <div class="sx-panel">
+  <div class="sx-dashboard-grid">
 
-    <header class="sx-panel-header">
-      <h1 class="sx-panel-title">SENTINALX</h1>
-      <p class="sx-panel-sub">NETWORK SECURITY SCANNER</p>
+    <!-- Fixed Header / Status Bar -->
+    <header class="sx-header">
+      <button class="sx-hamburger" onclick="toggleSidebar()">☰</button>
+      <div class="sx-status">
+        <span class="sx-dot" id="status-dot"></span>
+        <span class="sx-status-text" id="status-text">System Ready</span>
+      </div>
+      <div class="sx-header-right">
+        <span class="sx-version">Version 1.0.0 • Built with Tauri</span>
+      </div>
     </header>
 
-    <div class="sx-card sx-card-md">
+    <!-- Sidebar Navigation -->
+    <aside class="sx-sidebar">
+      <!-- Close button (visible on mobile) -->
+<button class="sx-sidebar-close" onclick="toggleSidebar()">×</button>
 
-      <div class="sx-status">
-        <span class="sx-dot"></span>
-        <span class="sx-status-text">System Ready</span>
+<!-- Backdrop (click to close on mobile) -->
+<div class="sx-backdrop" onclick="toggleSidebar()"></div>
+      <div class="sx-sidebar-header">
+        <h2 class="sx-panel-title">SENTINALX</h2>
+        <p class="sx-panel-sub">NETWORK SECURITY SCANNER</p>
       </div>
 
-      <div class="sx-controls">
+      <nav class="sx-nav">
+        <button class="sx-btn sx-btn-muted sx-nav-btn active" onclick="showSection('overview')">Overview</button>
+        <button class="sx-btn sx-btn-primary sx-nav-btn" onclick="showSection('device')">Device Scan</button>
+        <button class="sx-btn sx-btn-purple sx-nav-btn" onclick="showSection('port')">Port Scan</button>
+        <button class="sx-btn sx-btn-green sx-nav-btn" onclick="showSection('service')">Service & Version</button>
+        <button class="sx-btn sx-btn-muted sx-nav-btn" onclick="openLogs()">Open Logs</button>
+      </nav>
 
-        <button class="sx-btn sx-btn-muted" onclick="openLogs()">Open Logs</button>
+      <div class="sx-toggle-row sx-sidebar-toggle">
+        <div class="sx-toggle-left">
+          <span class="sx-toggle-icon">⛭</span>
+          <span class="sx-toggle-label">Background Logs</span>
+        </div>
+        <div class="sx-toggle-right">
+          <input id="sx-background-logs" class="sx-toggle-checkbox" type="checkbox" />
+          <label for="sx-background-logs" class="sx-toggle-switch">
+            <span class="sx-toggle-knob"></span>
+          </label>
+        </div>
+      </div>
+    </aside>
 
-        <button class="sx-btn sx-btn-primary" onclick="deviceScan()">Device Scan</button>
+    <!-- Main Content Area -->
+    <main class="sx-main-content">
 
-        <button class="sx-btn sx-btn-purple" onclick="togglePortScan()">
-          Port Scan
-        </button>
+      <!-- Overview Section -->
+      <section id="overview" class="sx-section active">
+        <h2 class="sx-section-title">Dashboard Overview</h2>
 
-        <button class="sx-btn sx-btn-green" onclick="toggleServiceScan()">
-          Service &amp; Version Detection
-        </button>
+        <div class="sx-empty-state">
+          <h3>No Scans Completed</h3>
+          <p>Select a scan type from the sidebar and run it to view results, severity distribution, open ports trends, and detected issues here.</p>
+        </div>
 
-        <!-- 🔽 Dynamic Input Panel -->
-        <div id="scan-input-panel" class="sx-input-panel hidden">
+        <!-- Placeholder for future dynamic content (charts + table) -->
+        <div id="overview-content" class="sx-cards-grid hidden">
+          <!-- Charts and summary table will be injected here when backend provides data -->
+        </div>
+      </section>
 
+      <!-- Device Scan Section -->
+      <section id="device" class="sx-section">
+        <h2 class="sx-section-title">Device Scan</h2>
+
+        <div class="sx-input-panel">
           <div class="sx-input-group">
-            <label>Target IP Address</label>
-            <input id="target-ip" type="text" placeholder="e.g. 192.168.1.10" />
+            <label>Target IP / Range</label>
+            <input id="target-ip-device" type="text" placeholder="e.g. 192.168.1.1-254  or  192.168.1.0/24" />
           </div>
+          <button class="sx-btn sx-btn-primary sx-btn-small" onclick="startScan('device')">Run Device Scan</button>
+        </div>
 
-          <div id="port-field" class="sx-input-group hidden">
+        <div id="device-results" class="sx-results-container">
+          <div class="sx-empty-state" id="device-empty">
+            <h3>Ready to Scan</h3>
+            <p>Click "Run Device Scan" above to discover live hosts on the network.</p>
+          </div>
+          <div id="device-results-content" class="hidden">
+            <!-- Table / list will appear here when backend returns data -->
+            <p class="placeholder-text">Device scan results will appear here (IP, Hostname, MAC, OS, Status)</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Port Scan Section -->
+      <section id="port" class="sx-section">
+        <h2 class="sx-section-title">Port Scan</h2>
+
+        <div class="sx-input-panel">
+          <div class="sx-input-group">
+            <label>Target IP</label>
+            <input id="target-ip-port" type="text" placeholder="e.g. 192.168.1.10 or 192.168.1.1-100" />
+          </div>
+          <div class="sx-input-group">
+            <label>Ports (optional)</label>
+            <input id="target-ports" type="text" placeholder="e.g. 1-1024  or  22,80,443,8080" />
+          </div>
+          <button class="sx-btn sx-btn-primary sx-btn-small" onclick="startScan('port')">Run Port Scan</button>
+        </div>
+
+        <div id="port-results" class="sx-results-container">
+          <div class="sx-empty-state" id="port-empty">
+            <h3>Ready to Scan</h3>
+            <p>Click "Run Port Scan" above to identify open ports and services.</p>
+          </div>
+          <div id="port-results-content" class="hidden">
+            <!-- Table will appear here when backend returns data -->
+            <p class="placeholder-text">Port scan results will appear here (Port, Protocol, State, Service, Details)</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Service & Version Section -->
+      <section id="service" class="sx-section">
+        <h2 class="sx-section-title">Service & Version Detection</h2>
+
+        <div class="sx-input-panel">
+          <div class="sx-input-group">
+            <label>Target IP</label>
+            <input id="target-ip-service" type="text" placeholder="e.g. 192.168.1.10" />
+          </div>
+          <div class="sx-input-group">
             <label>Port (optional)</label>
-            <input id="target-port" type="number" placeholder="e.g. 80" />
+            <input id="target-port-service" type="number" placeholder="e.g. 80, 443, 22" />
           </div>
-
-          <button class="sx-btn sx-btn-primary sx-btn-small" onclick="runScan()">
-            Start Scan
-          </button>
-
+          <button class="sx-btn sx-btn-primary sx-btn-small" onclick="startScan('service')">Run Service Scan</button>
         </div>
 
-        <div class="sx-divider"></div>
-
-        <div class="sx-toggle-row">
-          <div class="sx-toggle-left">
-            <span class="sx-toggle-icon">⛭</span>
-            <span class="sx-toggle-label">Background Logs</span>
+        <div id="service-results" class="sx-results-container">
+          <div class="sx-empty-state" id="service-empty">
+            <h3>Ready to Scan</h3>
+            <p>Click "Run Service Scan" above to detect running services and versions.</p>
           </div>
-
-          <div class="sx-toggle-right">
-            <input id="sx-background-logs" class="sx-toggle-checkbox" type="checkbox" />
-            <label for="sx-background-logs" class="sx-toggle-switch">
-              <span class="sx-toggle-knob"></span>
-            </label>
+          <div id="service-results-content" class="hidden">
+            <!-- Table will appear here when backend returns data -->
+            <p class="placeholder-text">Service & version results will appear here (Port, Service, Version, Severity, Notes)</p>
           </div>
         </div>
+      </section>
 
-      </div>
-    </div>
-
-    <footer class="sx-footer">
-      Version 1.0.0 • Built with Tauri
-    </footer>
-
+    </main>
   </div>
 
 </body>

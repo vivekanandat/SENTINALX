@@ -1,57 +1,82 @@
+// Current active scan type (for reference)
 let activeScan = null;
 
-function openLogs() {
-  console.log("Opening logs...");
+// Show selected section
+function showSection(sectionId) {
+  // Update active button styling
+  document.querySelectorAll('.sx-nav-btn').forEach(btn => btn.classList.remove('active'));
+  const activeBtn = Array.from(document.querySelectorAll('.sx-nav-btn'))
+    .find(btn => btn.textContent.trim().toLowerCase().includes(sectionId));
+  if (activeBtn) activeBtn.classList.add('active');
+
+  // Show/hide sections
+  document.querySelectorAll('.sx-section').forEach(s => s.classList.remove('active'));
+  document.getElementById(sectionId).classList.add('active');
 }
 
+// Update status bar
+function updateStatus(text, color = '#30d158') {
+  document.getElementById('status-text').textContent = text;
+  document.getElementById('status-dot').style.background = color;
+}
+
+// Simulate scan start (replace with real Tauri invoke later)
+function startScan(type) {
+  activeScan = type;
+  updateStatus(`Scanning... (${type})`, '#ffaa00'); // yellow/orange
+
+  // Fake delay to simulate work → replace with real async invoke
+  setTimeout(() => {
+    updateStatus('Scan Complete', '#30d158'); // green
+
+    // Show results area
+    const resultsContainer = document.getElementById(`${type}-results`);
+    const emptyState = document.getElementById(`${type}-empty`);
+    const contentArea = document.getElementById(`${type}-results-content`);
+
+    if (emptyState) emptyState.classList.add('hidden');
+    if (contentArea) contentArea.classList.remove('hidden');
+    if (resultsContainer) resultsContainer.classList.add('visible');
+
+    // For now just show placeholder message
+    // → Later: parse real data from backend and populate table/chart here
+
+  }, 1800); // 1.8 seconds fake delay
+}
+
+// Sidebar button handlers (you can also call startScan directly if desired)
 function deviceScan() {
-  console.log("Running device scan...");
-  hidePanel();
+  showSection('device');
+  // Optional: startScan('device');
 }
 
 function togglePortScan() {
-  activeScan = "port";
-  showPanel(false);
+  showSection('port');
+  // Optional: startScan('port');
 }
 
 function toggleServiceScan() {
-  activeScan = "service";
-  showPanel(true);
+  showSection('service');
+  // Optional: startScan('service');
 }
 
-function showPanel(showPortField) {
-  const panel = document.getElementById("scan-input-panel");
-  const portField = document.getElementById("port-field");
-
-  panel.classList.remove("hidden");
-
-  if (showPortField) {
-    portField.classList.remove("hidden");
-  } else {
-    portField.classList.add("hidden");
-  }
+function openLogs() {
+  console.log("Opening logs...");
+  // invoke('open_logs');  // ← uncomment when Tauri backend is ready
 }
 
-function hidePanel() {
-  document.getElementById("scan-input-panel").classList.add("hidden");
-}
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+  showSection('overview');
+  updateStatus('System Ready', '#30d158');
+});
 
-function runScan() {
-  const ip = document.getElementById("target-ip").value.trim();
-  const port = document.getElementById("target-port").value.trim();
+function toggleSidebar() {
+  const sidebar = document.querySelector('.sx-sidebar');
+  const grid = document.querySelector('.sx-dashboard-grid'); // optional
 
-  if (!ip) {
-    alert("Target IP is required.");
-    return;
-  }
+  sidebar.classList.toggle('open');
 
-  if (activeScan === "port") {
-    console.log(`Port scan started on ${ip}`);
-  }
-
-  if (activeScan === "service") {
-    console.log(`Service scan started on ${ip}, port: ${port || "auto"}`);
-  }
-
-  hidePanel();
+  // Optional: add class to body/grid for extra styling if needed
+  // document.body.classList.toggle('sidebar-open');
 }

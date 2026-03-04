@@ -1,212 +1,480 @@
-/* === SentinalX isolated theme (all classes start with sx-) === */
+/* =============================================================================
+   SENTINALX - 2025 Clean Dark Dashboard (high contrast, responsive, readable)
+   - Fixed index centering & visibility
+   - Clear sidebar + active states
+   - Better toggle & input contrast
+   - Real mobile sidebar + smooth scaling
+============================================================================= */
 
-/* -- Basic page layout -- */
-.sx-body {
+:root {
+  --bg-body:      #0a0e17;
+  --bg-sidebar:   #101623;
+  --bg-header:    #0d111c;
+  --bg-card:      #161c26;
+  --bg-input:     #0f1621;
+  --text-main:    #f0f4f8;
+  --text-dim:     #a0aec0;
+  --border:       #2a3345;
+  --accent-blue:  #5a9cff;
+  --accent-purple:#b080ff;
+  --accent-green: #4ade80;
+  --status-ok:    #4ade80;
+  --radius-md:    10px;
+  --radius-lg:    14px;
+  --shadow:       0 6px 20px rgba(0,0,0,0.55);
+  --transition:   0.2s ease;
+}
+
+* {
+  box-sizing: border-box;
   margin: 0;
-  min-height: 100vh;
+  padding: 0;
+}
+
+.sx-body {
+  height: 100vh;
+  font-family: "Inter", system-ui, sans-serif;
+  background: var(--bg-body);
+  color: var(--text-main);
+  overflow: hidden;
+}
+
+/* ── INDEX PAGE (main entry) ──────────────────────────────────────────────── */
+.sx-index-container {
+  height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  color: #fcfdfd;
-  background: radial-gradient(circle at 10% 20%, rgba(56, 60, 74, 0.35), transparent),
-              linear-gradient(180deg, #929293, #252833);
-  -webkit-font-smoothing: antialiased;
-}
-
-/* -- Compact centered small card used on index.html -- */
-.sx-card {
-  width: min(520px, 92vw);
-  background: rgba(183, 180, 180, 0.62);
-  padding: 48px 44px;
-  border-radius: 18px;
   text-align: center;
-  /* box-shadow: 0 10px 40px rgba(2,6,12,0.65), 0 0 35px rgba(57,126,255,0.12) inset; */
-  border: 3px solid rgb(0, 0, 0);
-  /* backdrop-filter: blur(6px); */
+  padding: 2rem;
 }
-/* .sx-card:hover{
-  background: rgba(227, 224, 224, 0.72);
-  transition-timing-function: ease-in-out;
-} */
 
-/* -- Title styles -- */
-.sx-title,
-.sx-panel-title {
-  margin: 0 0 8px 0;
-  font-weight: 800;
-  font-size: 50px;
-  letter-spacing: 6px;
-  background: linear-gradient(90deg,#000101,#000000);
+.sx-title {
+  font-size: clamp(5rem, 16vw, 12rem);
+  font-weight: 900;
+  letter-spacing: -4px;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple), var(--accent-green));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  margin-bottom: 4rem;
 }
 
-/* small subtitle */
-.sx-panel-sub {
-  margin: 0 0 18px 0;
-  color: #98a0b3;
-  font-size: 20px;
-  letter-spacing: 2px;
-}
-
-.sx-card:hover{
-  box-shadow: 0px 4px 10px rgb(168, 165, 165);
-  border: 4px solid #000000;
-  transition-duration: 300ms;
-  transition-timing-function: ease-in-out;
-}
-
-/* -- Buttons container on index.html -- */
 .sx-button-group {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 18px;
-}
-
-/* -- Base button -- */
-.sx-btn {
-  border: none;
-  cursor: pointer;
-  padding: 20px 18px;
-  border-radius: 10px;
-  font-weight: 700;
-  font-size: 20px;
-  transition: transform .2s ease, box-shadow .2s ease;
-  width: 60%;
-  color: #fff;
-  display: inline-flex;
-  align-items: center;
-  text-align: center;
+  gap: 2.5rem;
+  flex-wrap: wrap;
   justify-content: center;
 }
 
-/* small link inside button */
-.sx-link { color: inherit; text-decoration: none; display:block; width:100%; }
+.sx-btn {
+  padding: 1.3rem 3.2rem;
+  font-size: 1.45rem;
+  font-weight: 600;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  min-width: 220px;
+  border: none;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
 
-/* Button variants */
 .sx-btn-internal {
-  background: linear-gradient(90deg,#21668b,#000020);
-  box-shadow: 0 10px 25px rgba(20,140,255,0.18);
+  background: var(--accent-blue);
+  color: #0a0e17;
 }
 
-.sx-btn-internal:hover {
-  box-shadow: 0 14px 20px rgb(15, 15, 15);
-  border: 3px solid #ffffff;
-  transition-duration: 300ms;
-  transition-timing-function: ease-in-out;
-}
 .sx-btn-external {
-  background: linear-gradient(90deg,#844848,#190000);
-  box-shadow: 0 10px 25px rgba(120,70,255,0.14);
+  background: var(--accent-purple);
+  color: white;
 }
 
-.sx-btn-external:hover {
-  box-shadow: 0 14px 20px rgb(15, 15, 15);
-  border: 3px solid #ffffff;
-  transition-duration: 300ms;
-  transition-timing-function: ease-in-out;
+.sx-btn:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.6);
 }
 
-.sx-btn-muted {
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  color: #dbe6f1;
-  box-shadow: 0 6px 18px rgba(2,6,12,0.6);
+/* ── DASHBOARD LAYOUT ─────────────────────────────────────────────────────── */
+.sx-dashboard-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  grid-template-rows: 68px 1fr;
+  height: 100vh;
 }
 
-.sx-btn-primary { background: linear-gradient(90deg,#00b4ff,#0066ff); }
-.sx-btn-purple  { background: linear-gradient(90deg,#9b5cff,#6d3bff); }
-.sx-btn-green   { background: linear-gradient(90deg,#16c98a,#0aa36f); }
-
-.sx-btn:hover { 
-  transform: translateY(-3px);
-  border: 3px solid #ffffff;
-  transition-duration: 300ms;
-  transition-timing-function: ease-in-out;
+.sx-header {
+  grid-column: 1 / -1;
+  background: var(--bg-header);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  backdrop-filter: blur(8px);
 }
 
-/* === internal.html specific components === */
+.sx-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-main);
+  font-size: 2.2rem;
+  cursor: pointer;
+  padding: 0.8rem;
+}
 
-.sx-panel {
-  width: min(760px, 96vw);
+.sx-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.sx-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--status-ok);
+  box-shadow: 0 0 14px currentColor;
+}
+
+.sx-version {
+  font-size: 0.92rem;
+  color: var(--text-dim);
+}
+
+/* ── SIDEBAR ───────────────────────────────────────────────────────────────── */
+.sx-sidebar {
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+  padding: 2rem 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  align-items: center;
+  gap: 2.5rem;
+  overflow-y: auto;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sx-panel-title {
+  font-size: 2.8rem;
+  font-weight: 900;
+  letter-spacing: -1.2px;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   text-align: center;
-  padding: 36px 18px;
 }
 
-.sx-panel-header { text-align: center; margin-bottom: 6px; }
+.sx-panel-sub {
+  font-size: 1rem;
+  color: var(--text-dim);
+  text-align: center;
+  margin-top: 0.6rem;
+}
 
-.sx-card-md {
+.sx-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.sx-nav-btn {
+  padding: 1.1rem 1.6rem;
+  border-radius: var(--radius-md);
+  font-size: 1.12rem;
+  font-weight: 500;
+  text-align: left;
+  background: transparent;
+  color: var(--text-main);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.sx-nav-btn:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+.sx-nav-btn.active {
+  background: rgba(90, 166, 255, 0.15);
+  border-left: 6px solid var(--accent-blue);
+  padding-left: 1.2rem;
+  font-weight: 600;
+}
+
+/* ── MAIN CONTENT ──────────────────────────────────────────────────────────── */
+.sx-main-content {
+  overflow-y: auto;
+  padding: clamp(2.5rem, 6vw, 4.5rem) clamp(2rem, 5vw, 4rem);
+  background: var(--bg-body);
+}
+
+.sx-section {
+  display: none;
+  flex-direction: column;
+  gap: 3.2rem;
+}
+
+.sx-section.active {
+  display: flex;
+}
+
+.sx-section-title {
+  font-size: clamp(2.2rem, 5.5vw, 3rem);
+  font-weight: 700;
+}
+
+/* ── INPUT PANEL ───────────────────────────────────────────────────────────── */
+.sx-input-panel {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 2.4rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  max-width: 620px;
   width: 100%;
-  max-width: 540px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  padding: 26px;
-  border-radius: 14px;
-  border: 1px solid rgba(123, 113, 113, 0.03);
-  box-shadow: 0 8px 30px rgba(4,8,12,0.6), 0 0 28px rgba(80,120,255,0.06) inset;
 }
 
-/* status row */
-.sx-status { display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:12px; }
-.sx-dot { width:12px; height:12px; border-radius:50%; background:#30d158; box-shadow:0 6px 18px rgba(48,209,88,0.12); }
-.sx-status-text { color:#9fcdbf; font-weight:600; }
+.sx-input-group {
+  margin-bottom: 2rem;
+}
 
-/* controls stack */
-.sx-controls { 
-  display:flex; 
-  flex-direction:column; 
-  gap:12px;
+.sx-input-group label {
+  display: block;
+  margin-bottom: 0.9rem;
+  font-size: 1.08rem;
+  color: var(--text-dim);
+  font-weight: 500;
+}
+
+.sx-input-group input {
+  width: 100%;
+  padding: 1.2rem 1.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-main);
+  font-size: 1.12rem;
+}
+
+.sx-input-group input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 4px rgba(90,166,255,0.2);
+}
+
+/* ── EMPTY STATE ───────────────────────────────────────────────────────────── */
+.sx-empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  background: rgba(22, 28, 38, 0.6);
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--border);
+  padding: 6rem 3.5rem;
 }
 
-/* divider */
-.sx-divider { height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.03),transparent); margin:12px 0;border-radius:2px; }
+.sx-empty-state h3 {
+  font-size: 2.3rem;
+  color: var(--text-main);
+  margin-bottom: 1.4rem;
+}
 
-/* toggle row */
+.sx-empty-state p {
+  max-width: 620px;
+  line-height: 1.65;
+  color: var(--text-dim);
+  font-size: 1.15rem;
+}
+
+/* ── TOGGLE ────────────────────────────────────────────────────────────────── */
 .sx-toggle-row {
-  display:flex; align-items:center; justify-content:space-between; gap:12px;
-  background: rgba(255,255,255,0.01); padding:12px; border-radius:10px;
+  padding: 1.2rem 1.6rem;
+  background: rgba(255,255,255,0.06);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.sx-toggle-left { display:flex; align-items:center; gap:10px; color:#e6f0ff; font-weight:600; }
-.sx-toggle-icon { opacity:0.9; font-size:18px; color:#f1c40f; }
+.sx-toggle-left {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  color: var(--text-dim);
+  font-size: 1.1rem;
+  font-weight: 500;
+}
 
-/* Toggle switch (pure CSS) */
-.sx-toggle-right { display:flex; align-items:center; }
-
-.sx-toggle-checkbox { display:none; }
+.sx-toggle-icon {
+  font-size: 1.5rem;
+  color: #facc15;
+}
 
 .sx-toggle-switch {
-  width:48px; height:26px; border-radius:999px; display:inline-flex; align-items:center; padding:3px;
-  background:#18212b; position:relative; cursor:pointer; transition: background .22s ease;
+  width: 60px;
+  height: 32px;
+  background: #1f2a3d;
+  border-radius: 999px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.28s;
+  border: 2px solid #2d3748;
 }
 
 .sx-toggle-knob {
-  width:20px; height:20px; border-radius:50%; background:#cdd6e6; box-shadow:0 6px 12px rgba(2,6,12,0.5);
-  transform: translateX(0);
-  transition: transform .22s ease, background .22s ease;
+  width: 26px;
+  height: 26px;
+  background: #cbd5e1;
+  border-radius: 50%;
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  transition: transform 0.28s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
 }
 
-/* Toggle checked state (using sibling selector) */
 .sx-toggle-checkbox:checked + .sx-toggle-switch {
-  background: linear-gradient(90deg,#5ce1a3,#16c98a);
+  background: var(--accent-green);
+  border-color: #2f855a;
 }
+
 .sx-toggle-checkbox:checked + .sx-toggle-switch .sx-toggle-knob {
-  transform: translateX(22px);
-  background: #fff;
+  transform: translateX(28px);
+  background: white;
 }
 
-/* Footer */
-.sx-footer { color:#98a0b3; font-size:12px; margin-top:12px; text-align:center; }
+/* ── RESPONSIVE ────────────────────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .sx-dashboard-grid {
+    grid-template-columns: 1fr;
+  }
 
-/* small responsive tweaks */
-@media (max-width:520px) {
-  .sx-card { padding: 32px 20px; border-radius:14px; width: 92vw; }
-  .sx-title { font-size:32px; letter-spacing:4px; }
-  .sx-panel { padding: 18px; }
+  .sx-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 300px;
+    transform: translateX(-100%);
+    z-index: 300;
+  }
+
+  .sx-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sx-hamburger {
+    display: block;
+  }
+}
+
+@media (max-width: 700px) {
+  .sx-header {
+    padding: 0 1.5rem;
+    height: auto;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+  }
+
+  .sx-main-content {
+    padding: 2rem 1.8rem;
+  }
+
+  .sx-section-title {
+    font-size: 2.1rem;
+  }
+
+  .sx-input-panel {
+    padding: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sx-title {
+    font-size: clamp(3.8rem, 18vw, 7.5rem);
+  }
+
+  .sx-button-group {
+    flex-direction: column;
+    gap: 1.8rem;
+  }
+
+  .sx-empty-state {
+    padding: 4rem 2rem;
+    min-height: 50vh;
+  }
+}
+/* ── Mobile Sidebar Improvements ───────────────────────────────────────────── */
+
+.sx-sidebar-close {
+  display: none;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--text-main);
+  font-size: 2.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0.5rem;
+  line-height: 1;
+}
+
+.sx-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+  z-index: 150;
+  cursor: pointer;
+}
+
+/* When sidebar is open on mobile */
+@media (max-width: 1100px) {
+  .sx-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 300px;
+    transform: translateX(-100%);
+    z-index: 200;
+  }
+
+  .sx-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sx-sidebar.open .sx-sidebar-close {
+    display: block;
+  }
+
+  .sx-sidebar.open ~ .sx-backdrop {
+    display: block;
+  }
+
+  .sx-hamburger {
+    display: block;
+  }
+
+  .sx-main-content {
+    padding: 1.8rem 1.6rem;
+  }
+}
+
+/* Optional: when sidebar is open, shift main content slightly (nice effect) */
+.sx-sidebar.open ~ .sx-main-content {
+  transform: translateX(20px);
+  transition: transform 0.3s ease;
 }
