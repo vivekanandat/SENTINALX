@@ -3,17 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SENTINALX — Dashboard</title>
+  <title>SENTINALX — Network Security Scanner</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="/src/styles.css" />
   <link rel="stylesheet" href="/src/internal-input.css" />
-
-  <!-- Optional: only include Chart.js when you're ready to show charts -->
-  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
 
   <script src="internal.js" defer></script>
 </head>
@@ -30,33 +27,39 @@
         <span class="sx-status-text" id="status-text">System Ready</span>
       </div>
       <div class="sx-header-right">
-        <span class="sx-version">Version 1.0.0 • Built with Tauri</span>
+        <span class="sx-version">v1.0.0 • Tauri</span>
       </div>
     </header>
 
     <!-- Sidebar Navigation -->
     <aside class="sx-sidebar">
-      <!-- Close button (visible on mobile) -->
-<button class="sx-sidebar-close" onclick="toggleSidebar()">×</button>
-
-<!-- Backdrop (click to close on mobile) -->
-<div class="sx-backdrop" onclick="toggleSidebar()"></div>
+      <button class="sx-sidebar-close" onclick="toggleSidebar()">×</button>
       <div class="sx-sidebar-header">
         <h2 class="sx-panel-title">SENTINALX</h2>
-        <p class="sx-panel-sub">NETWORK SECURITY SCANNER</p>
+        <p class="sx-panel-sub">Network Scanner</p>
       </div>
 
       <nav class="sx-nav">
-        <button class="sx-btn sx-btn-muted sx-nav-btn active" onclick="showSection('overview')">Overview</button>
-        <button class="sx-btn sx-btn-primary sx-nav-btn" onclick="showSection('device')">Device Scan</button>
-        <button class="sx-btn sx-btn-purple sx-nav-btn" onclick="showSection('port')">Port Scan</button>
-        <button class="sx-btn sx-btn-green sx-nav-btn" onclick="showSection('service')">Service & Version</button>
-        <button class="sx-btn sx-btn-muted sx-nav-btn" onclick="openLogs()">Open Logs</button>
+        <button class="sx-nav-btn active" data-section="overview">
+          <span>Overview</span>
+        </button>
+        <button class="sx-nav-btn" data-section="device">
+          <span>Device Scan</span>
+        </button>
+        <button class="sx-nav-btn" data-section="port">
+          <span>Port Scan</span>
+        </button>
+        <button class="sx-nav-btn" data-section="service">
+          <span>Service Scan</span>
+        </button>
+        <button class="sx-nav-btn" onclick="openLogs()">
+          <span>Logs</span>
+        </button>
       </nav>
 
-      <div class="sx-toggle-row sx-sidebar-toggle">
+      <div class="sx-toggle-row">
         <div class="sx-toggle-left">
-          <span class="sx-toggle-icon">⛭</span>
+          <span class="sx-toggle-icon">⚙</span>
           <span class="sx-toggle-label">Background Logs</span>
         </div>
         <div class="sx-toggle-right">
@@ -68,6 +71,9 @@
       </div>
     </aside>
 
+    <!-- Backdrop for mobile -->
+    <div class="sx-backdrop" onclick="toggleSidebar()"></div>
+
     <!-- Main Content Area -->
     <main class="sx-main-content">
 
@@ -75,14 +81,14 @@
       <section id="overview" class="sx-section active">
         <h2 class="sx-section-title">Dashboard Overview</h2>
 
-        <div class="sx-empty-state">
+        <div class="sx-empty-state" id="overview-empty">
+          <div class="sx-empty-state-icon">◎</div>
           <h3>No Scans Completed</h3>
-          <p>Select a scan type from the sidebar and run it to view results, severity distribution, open ports trends, and detected issues here.</p>
+          <p>Select a scan type from the sidebar and run a scan to view results, statistics, and detected devices here.</p>
         </div>
 
-        <!-- Placeholder for future dynamic content (charts + table) -->
-        <div id="overview-content" class="sx-cards-grid hidden">
-          <!-- Charts and summary table will be injected here when backend provides data -->
+        <div id="overview-content" class="sx-results-container hidden">
+          <!-- Dynamic overview stats will be injected here -->
         </div>
       </section>
 
@@ -93,19 +99,21 @@
         <div class="sx-input-panel">
           <div class="sx-input-group">
             <label>Target IP / Range</label>
-            <input id="target-ip-device" type="text" placeholder="e.g. 192.168.1.1-254  or  192.168.1.0/24" />
+            <input id="target-ip-device" type="text" placeholder="192.168.1.1-254 or 192.168.1.0/24" />
           </div>
-          <button class="sx-btn sx-btn-primary sx-btn-small" onclick="startScan('device')">Run Device Scan</button>
+          <button class="sx-btn sx-btn-primary sx-btn-small" onclick="startScan('device')">Run Scan</button>
         </div>
 
         <div id="device-results" class="sx-results-container">
           <div class="sx-empty-state" id="device-empty">
+            <div class="sx-empty-state-icon">⊕</div>
             <h3>Ready to Scan</h3>
-            <p>Click "Run Device Scan" above to discover live hosts on the network.</p>
+            <p>Enter a target IP range above and click "Run Scan" to discover live hosts on your network.</p>
           </div>
           <div id="device-results-content" class="hidden">
-            <!-- Table / list will appear here when backend returns data -->
-            <p class="placeholder-text">Device scan results will appear here (IP, Hostname, MAC, OS, Status)</p>
+            <div class="sx-device-grid" id="device-grid">
+              <!-- Device cards will be injected here -->
+            </div>
           </div>
         </div>
       </section>
@@ -117,23 +125,36 @@
         <div class="sx-input-panel">
           <div class="sx-input-group">
             <label>Target IP</label>
-            <input id="target-ip-port" type="text" placeholder="e.g. 192.168.1.10 or 192.168.1.1-100" />
+            <input id="target-ip-port" type="text" placeholder="192.168.1.10 or 192.168.1.1-100" />
           </div>
           <div class="sx-input-group">
             <label>Ports (optional)</label>
-            <input id="target-ports" type="text" placeholder="e.g. 1-1024  or  22,80,443,8080" />
+            <input id="target-ports" type="text" placeholder="1-1024 or 22,80,443,8080" />
           </div>
-          <button class="sx-btn sx-btn-primary sx-btn-small" onclick="startScan('port')">Run Port Scan</button>
+          <button class="sx-btn sx-btn-primary sx-btn-small" onclick="startScan('port')">Run Scan</button>
         </div>
 
         <div id="port-results" class="sx-results-container">
           <div class="sx-empty-state" id="port-empty">
+            <div class="sx-empty-state-icon">◦</div>
             <h3>Ready to Scan</h3>
-            <p>Click "Run Port Scan" above to identify open ports and services.</p>
+            <p>Enter a target IP and optional port range above to identify open ports and services.</p>
           </div>
           <div id="port-results-content" class="hidden">
-            <!-- Table will appear here when backend returns data -->
-            <p class="placeholder-text">Port scan results will appear here (Port, Protocol, State, Service, Details)</p>
+            <table class="sx-results-table">
+              <thead>
+                <tr>
+                  <th>Port</th>
+                  <th>Protocol</th>
+                  <th>State</th>
+                  <th>Service</th>
+                  <th>Version</th>
+                </tr>
+              </thead>
+              <tbody id="port-table-body">
+                <!-- Port results will be injected here -->
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
@@ -145,23 +166,36 @@
         <div class="sx-input-panel">
           <div class="sx-input-group">
             <label>Target IP</label>
-            <input id="target-ip-service" type="text" placeholder="e.g. 192.168.1.10" />
+            <input id="target-ip-service" type="text" placeholder="192.168.1.10" />
           </div>
           <div class="sx-input-group">
             <label>Port (optional)</label>
-            <input id="target-port-service" type="number" placeholder="e.g. 80, 443, 22" />
+            <input id="target-port-service" type="number" placeholder="80, 443, 22" />
           </div>
-          <button class="sx-btn sx-btn-primary sx-btn-small" onclick="startScan('service')">Run Service Scan</button>
+          <button class="sx-btn sx-btn-primary sx-btn-small" onclick="startScan('service')">Run Scan</button>
         </div>
 
         <div id="service-results" class="sx-results-container">
           <div class="sx-empty-state" id="service-empty">
+            <div class="sx-empty-state-icon">▪</div>
             <h3>Ready to Scan</h3>
-            <p>Click "Run Service Scan" above to detect running services and versions.</p>
+            <p>Enter a target IP and optional port above to detect running services and versions.</p>
           </div>
           <div id="service-results-content" class="hidden">
-            <!-- Table will appear here when backend returns data -->
-            <p class="placeholder-text">Service & version results will appear here (Port, Service, Version, Severity, Notes)</p>
+            <table class="sx-results-table">
+              <thead>
+                <tr>
+                  <th>Port</th>
+                  <th>Service</th>
+                  <th>Version</th>
+                  <th>Severity</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody id="service-table-body">
+                <!-- Service results will be injected here -->
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
@@ -171,3 +205,4 @@
 
 </body>
 </html>
+
