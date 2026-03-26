@@ -1,13 +1,9 @@
-<<<<<<< HEAD
 import { invoke } from "@tauri-apps/api/core";
-=======
->>>>>>> origin/main
 // ═══════════════════════════════════════════════════════════════════════════
 // SENTINALX - Internal Dashboard JavaScript
 // Handles navigation, scanning simulation, and results display
 // ═══════════════════════════════════════════════════════════════════════════
 
-<<<<<<< HEAD
 let LOG_BUFFER = [];
 const MAX_LOGS = 500;
 
@@ -189,21 +185,6 @@ if (bgLogsToggle) {
 });
 
 // Initialize navigation buttons
-=======
-// Current active scan type
-let activeScan = null;
-
-// ═══════════════════════════════════════════════════════════════════════════
-// NAVIGATION
-// ═══════════════════════════════════════════════════════════════════════════
-
-// Initialize navigation buttons
-document.addEventListener('DOMContentLoaded', () => {
-  initNavigation();
-  updateStatus('System Ready', '#3fb950');
-});
-
->>>>>>> origin/main
 function initNavigation() {
   const navButtons = document.querySelectorAll('.sx-nav-btn');
   
@@ -253,7 +234,6 @@ function updateStatus(text, color = '#3fb950') {
     statusDot.style.boxShadow = `0 0 8px ${color}`;
   }
 }
-<<<<<<< HEAD
 // vendor func
 //
 function getVendorFromMac(mac) {
@@ -293,9 +273,6 @@ function getVendorFromMac(mac) {
 
   return "Unknown Vendor";
 }
-=======
-
->>>>>>> origin/main
 // ═══════════════════════════════════════════════════════════════════════════
 // SIDEBAR TOGGLE (Mobile)
 // ═══════════════════════════════════════════════════════════════════════════
@@ -317,7 +294,6 @@ function toggleSidebar() {
   }
 }
 
-<<<<<<< HEAD
 async function lookupServiceSeverity(serviceText) {
   const query = normalizeServiceQuery(serviceText);
 
@@ -476,8 +452,6 @@ function normalizeServiceQuery(serviceText) {
 }
 
 
-=======
->>>>>>> origin/main
 function closeSidebar() {
   const sidebar = document.querySelector('.sx-sidebar');
   const backdrop = document.querySelector('.sx-backdrop');
@@ -490,7 +464,6 @@ function closeSidebar() {
 // SCANNING FUNCTIONALITY
 // ═══════════════════════════════════════════════════════════════════════════
 
-<<<<<<< HEAD
 
 async function startScan(type) {
 	console.log("startScan called with:", type);
@@ -538,71 +511,10 @@ console.log("FULL RESULT:\n", result);
 }
 
 
-=======
-function startScan(type) {
-  activeScan = type;
-  
-  // Get target IP based on scan type
-  let targetIp = '';
-  let targetPort = '';
-  
-  if (type === 'device') {
-    targetIp = document.getElementById('target-ip-device')?.value?.trim();
-  } else if (type === 'port') {
-    targetIp = document.getElementById('target-ip-port')?.value?.trim();
-    targetPort = document.getElementById('target-ports')?.value?.trim();
-  } else if (type === 'service') {
-    targetIp = document.getElementById('target-ip-service')?.value?.trim();
-    targetPort = document.getElementById('target-port-service')?.value?.trim();
-  }
-  
-  // Validate input
-  if (!targetIp) {
-    updateStatus('Please enter a target IP', '#f85149');
-    showNotification('Please enter a target IP address', 'error');
-    return;
-  }
-  
-  // Update status to scanning
-  updateStatus(`Scanning ${targetIp}...`, '#d29922');
-  document.body.classList.add('scanning');
-  
-  // Show loading state in results area
-  showLoadingState(type);
-  
-  // Simulate scan completion (replace with real Tauri invoke later)
-  setTimeout(() => {
-    document.body.classList.remove('scanning');
-    updateStatus('Scan Complete', '#3fb950');
-    
-    // Generate and display sample results
-    displayResults(type, targetIp, targetPort);
-    
-  }, 2000); // 2 second simulation
-}
-
-function showLoadingState(type) {
-  const resultsContainer = document.getElementById(`${type}-results`);
-  const emptyState = document.getElementById(`${type}-empty`);
-  const contentArea = document.getElementById(`${type}-results-content`);
-  
-  if (emptyState) emptyState.classList.add('hidden');
-  if (contentArea) {
-    contentArea.classList.remove('hidden');
-    contentArea.innerHTML = `
-      <div class="sx-loading">
-        <div class="sx-spinner"></div>
-        <span>Scanning target...</span>
-      </div>
-    `;
-  }
-}
->>>>>>> origin/main
 
 // ═══════════════════════════════════════════════════════════════════════════
 // RESULTS DISPLAY
 // ═══════════════════════════════════════════════════════════════════════════
-<<<<<<< HEAD
 function displayResults(type, targetIp, targetPort, result) {
   console.log("displayResults:", type, result);
 
@@ -1124,100 +1036,6 @@ function escapeHtml(str) {
 }
 
 
-=======
-
-function displayResults(type, targetIp, targetPort) {
-  const contentArea = document.getElementById(`${type}-results-content`);
-  
-  if (!contentArea) return;
-  
-  if (type === 'device') {
-    displayDeviceResults(contentArea, targetIp);
-  } else if (type === 'port') {
-    displayPortResults(contentArea, targetIp, targetPort);
-  } else if (type === 'service') {
-    displayServiceResults(contentArea, targetIp, targetPort);
-  }
-}
-
-function displayDeviceResults(container, targetIp) {
-  // Generate sample device data
-  const sampleDevices = generateSampleDevices(targetIp);
-  
-  const gridHtml = `
-    <div class="sx-device-grid">
-      ${sampleDevices.map((device, index) => `
-        <div class="sx-device-card" style="animation-delay: ${index * 0.1}s">
-          <div class="sx-device-header">
-            <div>
-              <div class="sx-device-name">${device.hostname}</div>
-              <div class="sx-device-ip">${device.ip}</div>
-            </div>
-            <span class="sx-device-status ${device.status}">${device.status}</span>
-          </div>
-          <div class="sx-device-details">
-            <div class="sx-device-detail">
-              <span class="sx-device-detail-label">MAC Address</span>
-              <span class="sx-device-detail-value">${device.mac}</span>
-            </div>
-            <div class="sx-device-detail">
-              <span class="sx-device-detail-label">Vendor</span>
-              <span class="sx-device-detail-value">${device.vendor}</span>
-            </div>
-            <div class="sx-device-detail">
-              <span class="sx-device-detail-label">Response</span>
-              <span class="sx-device-detail-value">${device.response}ms</span>
-            </div>
-          </div>
-        </div>
-      `).join('')}
-    </div>
-  `;
-  
-  container.innerHTML = gridHtml;
-}
-
-function displayPortResults(container, targetIp, targetPorts) {
-  // Generate sample port data
-  const samplePorts = generateSamplePorts(targetPorts);
-  const tbody = document.getElementById('port-table-body');
-  
-  if (tbody) {
-    tbody.innerHTML = samplePorts.map((port, index) => `
-      <tr style="animation-delay: ${index * 0.05}s">
-        <td><strong>${port.port}</strong></td>
-        <td>${port.protocol}</td>
-        <td><span class="sx-port-status ${port.state}">${port.state}</span></td>
-        <td>${port.service}</td>
-        <td>${port.version}</td>
-      </tr>
-    `).join('');
-  }
-  
-  container.innerHTML = container.innerHTML; // Keep table structure
-}
-
-function displayServiceResults(container, targetIp, targetPort) {
-  // Generate sample service data
-  const sampleServices = generateSampleServices();
-  const tbody = document.getElementById('service-table-body');
-  
-  if (tbody) {
-    tbody.innerHTML = sampleServices.map((service, index) => `
-      <tr style="animation-delay: ${index * 0.05}s">
-        <td><strong>${service.port}</strong></td>
-        <td>${service.name}</td>
-        <td>${service.version}</td>
-        <td><span class="sx-severity ${service.severity}">${service.severity}</span></td>
-        <td>${service.notes}</td>
-      </tr>
-    `).join('');
-  }
-  
-  container.innerHTML = container.innerHTML;
-}
-
->>>>>>> origin/main
 // ═══════════════════════════════════════════════════════════════════════════
 // SAMPLE DATA GENERATORS
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1238,54 +1056,18 @@ function generateSampleDevices(targetIp) {
     {
       ip: `${baseIp}.10`,
       hostname: 'DESKTOP-M8K3A2',
-<<<<<<< HEAD
       mac: 'e0:8f:4c:af:16:08',
       vendor: 'Intel Corporate',
-=======
-      mac: 'AA:BB:CC:DD:EE:FF',
-      vendor: 'Dell Inc.',
->>>>>>> origin/main
       status: 'online',
       response: 3
     },
     {
       ip: `${baseIp}.15`,
       hostname: 'LAPTOP-JK2M9P',
-<<<<<<< HEAD
       mac: 'c8:41:8a:10:b5:d1',
       vendor: 'HP',
       status: 'online',
       response: 8
-=======
-      mac: '11:22:33:44:55:66',
-      vendor: 'HP',
-      status: 'online',
-      response: 8
-    },
-    {
-      ip: `${baseIp}.42`,
-      hostname: 'Server-Storage',
-      mac: 'A1:B2:C3:D4:E5:F6',
-      vendor: 'Synology',
-      status: 'online',
-      response: 2
-    },
-    {
-      ip: `${baseIp}.88`,
-      hostname: 'PRINTER-OFFICE',
-      mac: '12:34:56:78:9A:BC',
-      vendor: 'Brother',
-      status: 'online',
-      response: 5
-    },
-    {
-      ip: `${baseIp}.120`,
-      hostname: 'IoT-Camera-01',
-      mac: 'DE:AD:BE:EF:00:01',
-      vendor: 'Reolink',
-      status: 'online',
-      response: 12
->>>>>>> origin/main
     }
   ];
 }
@@ -1338,38 +1120,7 @@ function generateSampleServices() {
       severity: 'low',
       notes: 'Secure shell access'
     },
-<<<<<<< HEAD
    
-=======
-    {
-      port: '80',
-      name: 'HTTP',
-      version: 'Apache/2.4.46 (Ubuntu)',
-      severity: 'medium',
-      notes: 'HTTP service detected'
-    },
-    {
-      port: '443',
-      name: 'HTTPS',
-      version: 'nginx 1.18.0',
-      severity: 'low',
-      notes: 'SSL/TLS enabled'
-    },
-    {
-      port: '3306',
-      name: 'MySQL',
-      version: 'MariaDB 10.5.12',
-      severity: 'high',
-      notes: 'Database exposed - restrict access'
-    },
-    {
-      port: '8080',
-      name: 'HTTP-Proxy',
-      version: 'Jetty 9.4.x',
-      severity: 'medium',
-      notes: 'Development server'
-    }
->>>>>>> origin/main
   ];
 }
 
@@ -1422,7 +1173,6 @@ document.head.appendChild(style);
 // LOGS (Placeholder)
 // ═══════════════════════════════════════════════════════════════════════════
 
-<<<<<<< HEAD
 
 function openLogs() {
   showSection("logs");
@@ -1435,11 +1185,3 @@ window.toggleSidebar = toggleSidebar;
 window.closeSidebar = closeSidebar;
 window.openLogs = openLogs;
 window.addCustomFingerprint = addCustomFingerprint;
-=======
-function openLogs() {
-  console.log('Opening logs...');
-  showNotification('Logs panel coming soon', 'info');
-  // invoke('open_logs'); // ← uncomment when Tauri backend is ready
-}
-
->>>>>>> origin/main

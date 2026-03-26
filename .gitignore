@@ -23,13 +23,5 @@ dist-ssr
 *.sln
 *.sw?
 
-internal.html
-
-src/styles.css
-
-src-tauri/prog/fp_identify
-
-script.js
-
-src-tauri/prog/portscanning
+src-tauri/target/
 src-tauri/prog/listen

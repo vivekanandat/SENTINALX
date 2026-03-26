@@ -12,12 +12,8 @@
   <link rel="stylesheet" href="/src/styles.css" />
   <link rel="stylesheet" href="/src/internal-input.css" />
 
-<<<<<<< HEAD
   <script src="/oui_db.js"></script>
   <script type="module" src="/internal.js"></script>
-=======
-  <script src="internal.js" defer></script>
->>>>>>> origin/main
 </head>
 
 <body class="sx-body">
@@ -32,11 +28,7 @@
         <span class="sx-status-text" id="status-text">System Ready</span>
       </div>
       <div class="sx-header-right">
-<<<<<<< HEAD
         <span class="sx-version"></span>
-=======
-        <span class="sx-version">v1.0.0 • Tauri</span>
->>>>>>> origin/main
       </div>
     </header>
 
@@ -130,7 +122,6 @@
       <!-- Port Scan Section -->
       <section id="port" class="sx-section">
         <h2 class="sx-section-title">Port Scan</h2>
-<<<<<<< HEAD
 
         <div class="sx-input-panel">
           <div class="sx-input-group">
@@ -270,87 +261,6 @@ match http m|Server: MyCustomServer| p/My Custom Service/ v/1.0/'
     </div>
   </div>
 </section>
-=======
-
-        <div class="sx-input-panel">
-          <div class="sx-input-group">
-            <label>Target IP</label>
-            <input id="target-ip-port" type="text" placeholder="192.168.1.10 or 192.168.1.1-100" />
-          </div>
-          <div class="sx-input-group">
-            <label>Ports (optional)</label>
-            <input id="target-ports" type="text" placeholder="1-1024 or 22,80,443,8080" />
-          </div>
-          <button class="sx-btn sx-btn-primary sx-btn-small" onclick="startScan('port')">Run Scan</button>
-        </div>
-
-        <div id="port-results" class="sx-results-container">
-          <div class="sx-empty-state" id="port-empty">
-            <div class="sx-empty-state-icon">◦</div>
-            <h3>Ready to Scan</h3>
-            <p>Enter a target IP and optional port range above to identify open ports and services.</p>
-          </div>
-          <div id="port-results-content" class="hidden">
-            <table class="sx-results-table">
-              <thead>
-                <tr>
-                  <th>Port</th>
-                  <th>Protocol</th>
-                  <th>State</th>
-                  <th>Service</th>
-                  <th>Version</th>
-                </tr>
-              </thead>
-              <tbody id="port-table-body">
-                <!-- Port results will be injected here -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- Service & Version Section -->
-      <section id="service" class="sx-section">
-        <h2 class="sx-section-title">Service & Version Detection</h2>
-
-        <div class="sx-input-panel">
-          <div class="sx-input-group">
-            <label>Target IP</label>
-            <input id="target-ip-service" type="text" placeholder="192.168.1.10" />
-          </div>
-          <div class="sx-input-group">
-            <label>Port (optional)</label>
-            <input id="target-port-service" type="number" placeholder="80, 443, 22" />
-          </div>
-          <button class="sx-btn sx-btn-primary sx-btn-small" onclick="startScan('service')">Run Scan</button>
-        </div>
-
-        <div id="service-results" class="sx-results-container">
-          <div class="sx-empty-state" id="service-empty">
-            <div class="sx-empty-state-icon">▪</div>
-            <h3>Ready to Scan</h3>
-            <p>Enter a target IP and optional port above to detect running services and versions.</p>
-          </div>
-          <div id="service-results-content" class="hidden">
-            <table class="sx-results-table">
-              <thead>
-                <tr>
-                  <th>Port</th>
-                  <th>Service</th>
-                  <th>Version</th>
-                  <th>Severity</th>
-                  <th>Notes</th>
-                </tr>
-              </thead>
-              <tbody id="service-table-body">
-                <!-- Service results will be injected here -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
->>>>>>> origin/main
     </main>
   </div>
 

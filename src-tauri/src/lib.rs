@@ -27,7 +27,7 @@ async fn run_scan(
 ) -> Result<String, String> {
     let prog_dir = "/home/diablo/proj/SENTINALX/src-tauri/prog";
 
-    let listen_path = format!("{prog_dir}/listen");
+    let listen_script = format!("{prog_dir}/listen.py");
     let hostdisc_path = format!("{prog_dir}/hostdisc");
     let portlisten_path = format!("{prog_dir}/portlisten");
     let portscanning_path = format!("{prog_dir}/portscanning");
@@ -46,11 +46,9 @@ async fn run_scan(
 
     match scan_type.as_str() {
         "device" => {
-            let listener = Command::new(&listen_path)
+            let listener = Command::new("python3")
                 .current_dir(prog_dir)
-                .arg(&ip)
-                .arg("--timeout")
-                .arg("10")
+                .arg(&listen_script)
                 .stdout(Stdio::piped())
                 .stderr(Stdio::piped())
                 .spawn()
