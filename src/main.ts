@@ -1,8 +1,6 @@
-import { invoke } from "@tauri-apps/api/core";
+//import { invoke } from "@tauri-apps/api/core";
 
-let greetInputEl: HTMLInputElement | null;
-let greetMsgEl: HTMLElement | null;
+let _greetInputEl: HTMLInputElement | null;
+let _greetMsgEl: HTMLElement | null;
 
-async function internal() {
-  
-}
+//async function internal(){}

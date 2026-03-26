@@ -5,7 +5,61 @@
    - Soft accent colors for reduced eye strain
    - Fully responsive with smooth animations
 ============================================================================= */
+.sx-textarea {
+  width: 100%;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  color: #c9d1d9;
+  padding: 8px;
+  border-radius: 6px;
+  font-family: "JetBrains Mono", monospace;
+  resize: vertical;
+}
 
+.sx-input-full {
+  grid-column: span 2;
+}
+
+.sx-logs-panel {
+  background: rgba(10, 14, 23, 0.9);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 12px;
+  min-height: 320px;
+  max-height: 70vh;
+  overflow-y: auto;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.sx-log-line {
+  padding: 6px 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.sx-log-line:last-child {
+  border-bottom: none;
+}
+
+.sx-log-time {
+  color: #8b949e;
+  margin-right: 8px;
+}
+
+.sx-log-type {
+  display: inline-block;
+  min-width: 52px;
+  font-weight: 700;
+  margin-right: 8px;
+}
+
+.sx-log-type.info { color: #7ee787; }
+.sx-log-type.warn { color: #f2cc60; }
+.sx-log-type.error { color: #ff7b72; }
+.sx-log-type.debug { color: #79c0ff; }
 :root {
   /* === Peaceful Dark Theme Colors === */
   --bg-body:      #0d1117;

@@ -5,26 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SENTINALX - Network Security Scanner</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-
     <link rel="stylesheet" href="/src/styles.css" />
-
-    <script src="script.js" defer></script>
+    <script type="module" src="/script.js" defer></script>
   </head>
 
   <body class="sx-body">
     <div class="sx-index-container">
       <h1 class="sx-title">SENTINALX</h1>
       <div class="sx-button-group">
-        <button class="sx-btn sx-btn-internal" onclick="internal()">Internal</button>
-        <button class="sx-btn sx-btn-external">External</button>
+        <button class="sx-btn sx-btn-internal" id="internal-btn">Internal</button>
+        <button class="sx-btn sx-btn-external" id="external-btn">External</button>
       </div>
     </div>
   </body>
 </html>
-

@@ -12,7 +12,8 @@
   <link rel="stylesheet" href="/src/styles.css" />
   <link rel="stylesheet" href="/src/internal-input.css" />
 
-  <script src="internal.js" defer></script>
+  <script src="/oui_db.js"></script>
+  <script type="module" src="/internal.js"></script>
 </head>
 
 <body class="sx-body">
@@ -27,7 +28,7 @@
         <span class="sx-status-text" id="status-text">System Ready</span>
       </div>
       <div class="sx-header-right">
-        <span class="sx-version">v1.0.0 • Tauri</span>
+        <span class="sx-version"></span>
       </div>
     </header>
 
@@ -163,17 +164,51 @@
       <section id="service" class="sx-section">
         <h2 class="sx-section-title">Service & Version Detection</h2>
 
-        <div class="sx-input-panel">
-          <div class="sx-input-group">
-            <label>Target IP</label>
-            <input id="target-ip-service" type="text" placeholder="192.168.1.10" />
-          </div>
-          <div class="sx-input-group">
-            <label>Port (optional)</label>
-            <input id="target-port-service" type="number" placeholder="80, 443, 22" />
-          </div>
-          <button class="sx-btn sx-btn-primary sx-btn-small" onclick="startScan('service')">Run Scan</button>
-        </div>
+<div class="sx-input-panel">
+
+  <div class="sx-input-group">
+    <label>Target IP</label>
+    <input
+      id="target-ip-service"
+      type="text"
+      placeholder="192.168.1.10" />
+  </div>
+
+  <div class="sx-input-group">
+    <label>Port</label>
+    <input
+      id="target-port-service"
+      type="text"
+      placeholder="80,443,22 or 1-1024" />
+  </div>
+
+  <!-- NEW: Custom Fingerprint -->
+  <div class="sx-input-group sx-input-full">
+    <label>Custom Fingerprint (optional)</label>
+
+    <textarea
+      id="custom-fingerprint"
+      rows="3"
+      placeholder='Example:
+match http m|Server: MyCustomServer| p/My Custom Service/ v/1.0/'
+      class="sx-textarea">
+    </textarea>
+  </div>
+
+  <button
+    class="sx-btn sx-btn-secondary sx-btn-small"
+    onclick="addCustomFingerprint()">
+    Add Fingerprint
+  </button>
+
+  <button
+    class="sx-btn sx-btn-primary sx-btn-small"
+    onclick="startScan('service')">
+    Run Scan
+  </button>
+
+</div>
+
 
         <div id="service-results" class="sx-results-container">
           <div class="sx-empty-state" id="service-empty">
@@ -199,7 +234,33 @@
           </div>
         </div>
       </section>
+<section id="logs" class="sx-section">
+  <h2 class="sx-section-title">Logs</h2>
+<div class="sx-input-panel">
+  <button
+    class="sx-btn sx-btn-primary sx-btn-small"
+    onclick="exportLogs()">
+    Export Logs
+  </button>
 
+  <button
+    class="sx-btn sx-btn-secondary sx-btn-small"
+    onclick="clearLogs()">
+    Clear Logs
+  </button>
+</div>
+  <div id="logs-results" class="sx-results-container">
+    <div class="sx-empty-state" id="logs-empty">
+      <div class="sx-empty-state-icon">≡</div>
+      <h3>No Logs Yet</h3>
+      <p>Scan activity and background logs will appear here.</p>
+    </div>
+
+    <div id="logs-results-content" class="hidden">
+      <pre id="logs-content" class="sx-raw-output"></pre>
+    </div>
+  </div>
+</section>
     </main>
   </div>
 
